@@ -1,0 +1,62 @@
+#!/usr/bin/perl
+
+use POSIX qw(strftime);
+use File::Basename;
+
+# config
+$TASKDIR  = glob("~/.timet");				# glob for expanding ~
+$TASKFILE = "$TASKDIR/tasks.txt";
+
+# create timet user dir
+if ( not -d $TASKDIR) {
+	mkdir $TASKDIR || die $!;
+}
+
+if($ARGV[0] =~ /-{1,2}[h,H].*/) {
+	print "
+$0 -[hp]
+
+OPTIONS: 
+	-h 			print this help
+	-p			print the tasks.txt file
+	";
+	exit;
+}
+
+# print the tasks file
+if(@ARGV[0] eq "-p"){
+		print "$TASKFILE:\n";
+		open(FILE, "<$TASKFILE") || die $!;
+		while(<FILE>){
+		print;
+	};
+	close(FILE);
+	exit;
+}
+
+# get date and prompt for input
+$date = strftime("%a %b %e %H:%M:%S %Y", gmtime);
+
+print "
+$date
+
+Time (Mm, Hh): ";
+$times = <STDIN>;
+chomp($times);
+
+print "
+Task (end with \\n\\n.): ";
+
+while($line = <STDIN>){
+	$line  = "\t".$line;
+	$task .= $line;
+	if($task =~ s/\n\t\n\t\.//){
+		# write file
+		open(FILE, ">>$TASKFILE") || die $!;
+		print FILE "$date
+time:\t$times
+task: $task\n";
+		close(FILE);
+		exit;
+	}
+}

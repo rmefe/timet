@@ -1,0 +1,54 @@
+(c) 2020 merfe <rfe@ek-muc.de>
+bsd license
+
+
+timet is used to track your time on the commandline.
+
+Without arguments it asks for the time used (without input verification)
+and for the task done. The tasks can be multiline, end your input with
+two newlines and a dot.
+
+It saves the time and the tasks in a file called tasks.txt. Standard-Path is 
+~/.timet/tasks.txt
+
+
+
+
+CONFIGURATION:
+
+within timet executable:
+
+	$TASKDIR		Path for the task-file directory
+				(DEFAULT: ~/.timet)
+
+	$TASKFILE		Path for the task-file
+				(DEFAULT: $TASKDIR/tasks.txt)
+
+
+
+
+BASIC USAGE:
+
+timet -[hp]
+
+OPTIONS: 
+	-h 			print this help
+	-p			print the tasks.txt file
+
+
+
+
+
+EXAMPLE:
+
+
+$ timet -p
+Fr Jan 10 15:35:56 2020
+time:   8m
+task:   done task1
+
+Fr Jan 10 15:36:54 2020
+time:   2H
+task:   did some walk with the dog
+	he was happy
+
